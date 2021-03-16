@@ -1,0 +1,6 @@
+.DS_Store
+.vscode
+
+vars.js
+
+node_modules/
