@@ -26,7 +26,7 @@ exports.addUser = async(req,res, next) => {
 }
 
 exports.loginUser = async (req, res, next) => {
-    // const {id} = req.params
+
 	const loginInfo = req.body;
 	try {
         const user = User.findOne({email: loginInfo.email, password: loginInfo.password});
@@ -36,7 +36,6 @@ exports.loginUser = async (req, res, next) => {
         errorHandler(`Invalid email and/or password!`, next, 401);
     }
 }
-
 
 exports.updateUser = async (req, res, next) => {
 	const {id} = req.params;
