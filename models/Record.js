@@ -1,17 +1,23 @@
-const mongoose = require('mongoose')
-const {model, Schema} = mongoose
+const mongoose = require("mongoose");
+const { model, Schema } = mongoose;
 
-
-const RecordSchema = new Schema({
-    cover: {type: String, required: true, default: "http://localhost:5001/statics/avatar-01.png"},
-    title: {type: String, required: true},
-    artist: {type: String, required: true},
-    year: {type: Number, required: true}
-}, {
+const RecordSchema = new Schema(
+  {
+    cover: {
+      type: String,
+      required: true,
+      default: "http://localhost:5001/statics/avatar-01.png",
+    },
+    title: { type: String, required: true },
+    artist: { type: String, required: true },
+    year: { type: Number, required: true },
+  },
+  {
     versionKey: false,
-    timestamps: true
-})
+    timestamps: true,
+  }
+);
 
-const Record = model("Record", RecordSchema)
+const Record = model("Record", RecordSchema);
 
-module.exports = Record
+module.exports = Record;
