@@ -11,7 +11,7 @@ const UserSchema = new Schema(
     avatar: {
       type: String,
       required: true,
-      default: "http://localhost:5001/statics/avatar-01.png",
+      default: "http://localhost:5001/statics/avatar-01.jpg",
     },
   },
   {

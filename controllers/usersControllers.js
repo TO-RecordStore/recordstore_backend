@@ -24,26 +24,26 @@ exports.loginUser = async (req, res, next) => {
   const loginInfo = req.body;
 
   try {
-    const user = await User.find({
+    const user = await User.findOne({
       email: loginInfo.email,
       password: loginInfo.password,
     });
+    if (!user) throw new Error("Invalid email and/or password!")
     res.json(user);
   } catch (err) {
-    errorHandler(`Invalid email and/or password!`, next, 401);
+    errorHandler(`Bad request!`, next, 400);
   }
 };
 
 exports.updateUser = async (req, res, next) => {
   const { id } = req.params;
-
   try {
     const updatedUser = await User.findByIdAndUpdate(id, req.body, {
       new: true,
     });
     res.json(updatedUser);
   } catch (err) {
-    errorHandler(`Invalid user data`, next, 400);
+    errorHandler(`Could not find user with id: ${id}`, next, 400);
   }
 };
 
