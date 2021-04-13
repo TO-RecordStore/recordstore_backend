@@ -19,7 +19,9 @@ const UserSchema = new Schema(
     versionKey: false,
     timestamps: true,
     toJSON: {
-      transform: (_, returned) => delete returned.password
+      transform: (docOriginal, docToReturn) => {
+        delete docToReturn.password;
+      },
     }
   }
 );

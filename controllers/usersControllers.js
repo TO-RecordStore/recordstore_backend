@@ -6,6 +6,7 @@ const { errorHandler } = require("../utilities/errorHandler");
 exports.getUsers = async (req, res, next) => {
   try {
     const users = await User.find();
+    console.log(users);
     res.json(users);
   } catch (err) {
     next(errorHandler(`Cannot get users`));
