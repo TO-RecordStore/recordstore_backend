@@ -86,7 +86,8 @@ const lastfm = process.env.LASTFM_KEY;
 					title: record.name,
 					artist: record.artist,
 					cover: record.image[2]["#text"],
-					year: Math.floor(Math.random() * 50) + 1970
+					year: Math.floor(Math.random() * 50) + 1970,
+					price: 19.99
 				}
 
 				const newRecord = new Record(newRecordData);

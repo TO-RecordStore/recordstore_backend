@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const usersRouter = require("./routers/usersRouter");
 const recordsRouter = require("./routers/recordsRouter");
 const imagesRouter = require("./routers/imagesRouter");
+const ordersRouter = require("./routers/ordersRouter");
 
 // VARIABLES
 
@@ -44,6 +45,7 @@ mongoose
 app.use("/users", usersRouter);
 app.use("/records", recordsRouter);
 app.use("/images", imagesRouter);
+app.use("/orders", ordersRouter);
 
 // EXPRESS ERROR HANDLER
 

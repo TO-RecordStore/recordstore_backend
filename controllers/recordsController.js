@@ -6,7 +6,7 @@ exports.getRecords = async (req, res, next) => {
     const records = await Record.find();
     res.json(records);
   } catch (err) {
-    errorHandler("Cannot get records", next);
+    next(errorHandler('Cannot get records'))
   }
 };
 
@@ -15,7 +15,7 @@ exports.addRecord = async (req, res, next) => {
     const newRecord = await Record.create(req.body);
     res.json(newRecord);
   } catch (err) {
-    errorHandler("Invalid record data entry", next, 400);
+    next(errorHandler("Invalid record data entry", 400));
   }
 };
 
@@ -28,7 +28,7 @@ exports.updateRecord = async (req, res, next) => {
     console.log("!!!the update record log!!!", id, req.body, updatedRecord);
     res.json(updatedRecord);
   } catch (err) {
-    errorHandler("Cannot update record", next, 400);
+    next(errorHandler("Cannot update record", 400));
   }
 };
 
@@ -39,6 +39,6 @@ exports.deleteRecord = async (req, res, next) => {
     // if (!recordDeleted) throw new Error()
     res.json(deletedRecord);
   } catch (err) {
-    errorHandler(`Cannot find the record with id ${id}`, next, 400);
+    next(errorHandler(`Cannot find the record with id ${id}`, 400));
   }
 };

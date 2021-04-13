@@ -9,7 +9,9 @@ const {
   updateUser,
 } = require("../controllers/usersControllers");
 
-router.route("/").get(getUsers).post(addUser);
+const { userValidationRules, userValidationErrorHandler } = require('../middleware/validation.js')
+
+router.route("/").get(getUsers).post(userValidationRules(), userValidationErrorHandler, addUser);
 
 router.route("/login").post(loginUser);
 
