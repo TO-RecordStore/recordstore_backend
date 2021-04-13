@@ -8,6 +8,7 @@ const usersRouter = require("./routers/usersRouter");
 const recordsRouter = require("./routers/recordsRouter");
 const imagesRouter = require("./routers/imagesRouter");
 const ordersRouter = require("./routers/ordersRouter");
+const cookiesParser = require('cookie-parser')
 
 // VARIABLES
 
@@ -23,7 +24,7 @@ app.listen(PORT, () => {
 
 app.use(express.json());
 app.use(cors());
-
+app.use(cookiesParser());
 app.use("/statics", express.static("statics"));
 
 // DB CONNECTION

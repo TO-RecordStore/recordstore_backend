@@ -1,6 +1,8 @@
+// require('dotenv').config();
 const mongoose = require("mongoose");
 const { model, Schema } = mongoose;
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const UserSchema = new Schema(
   {
@@ -22,7 +24,7 @@ const UserSchema = new Schema(
       transform: (docOriginal, docToReturn) => {
         delete docToReturn.password;
       },
-    }
+    },
   }
 );
 
@@ -31,6 +33,26 @@ UserSchema.pre("save", function () {
   if (user.isModified("password"))
     user.password = bcrypt.hashSync(user.password, 8);
 });
+
+UserSchema.methods.generateAuthToken = function () {
+  const user = this;
+  const jwtKey = process.env.JWT_KEY;
+  const token = jwt.sign({ _id: user._id.toString() }, jwtKey).toString();
+
+  return token;
+};
+
+UserSchema.statics.findByToken = function (token) {
+  const User = this;
+  const jwtKey = process.env.JWT_KEY;
+
+  try {
+    const decoded = jwt.verify(token, jwtKey);
+    return User.findOne({ _id: decoded._id });
+  } catch (err) {
+    return;
+  }
+};
 
 const User = model("User", UserSchema);
 

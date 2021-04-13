@@ -1,12 +1,11 @@
 const User = require("../models/User");
-const bcrypt = require('bcryptjs')
+const bcrypt = require("bcryptjs");
 
 const { errorHandler } = require("../utilities/errorHandler");
 
 exports.getUsers = async (req, res, next) => {
   try {
     const users = await User.find();
-    console.log(users);
     res.json(users);
   } catch (err) {
     next(errorHandler(`Cannot get users`));
@@ -16,7 +15,16 @@ exports.getUsers = async (req, res, next) => {
 exports.addUser = async (req, res, next) => {
   try {
     const newUser = await User.create(req.body);
-    res.json(newUser);
+    
+    const token = newUser.generateAuthToken();
+    res
+      .cookie("token", token, {
+        expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+        secure: false,
+        httpOnly: true,
+      })
+      .json(newUser);
+      
   } catch (err) {
     next(errorHandler(`Invalid signup data`, 400));
   }
@@ -27,15 +35,26 @@ exports.loginUser = async (req, res, next) => {
 
   try {
     const user = await User.findOne({
-      email: loginInfo.email
+      email: loginInfo.email,
     });
-    if (!user) return next(errorHandler("User not found!", 401))
+    if (!user) return next(errorHandler("User not found!", 401));
 
-    const passwordMatches = bcrypt.compareSync(loginInfo.password, user.password)
+    const passwordMatches = bcrypt.compareSync(
+      loginInfo.password,
+      user.password
+    );
 
-    if(!passwordMatches) return next(errorHandler('Wrong password', 401))
+    if (!passwordMatches) return next(errorHandler("Wrong password", 401));
 
-    res.json(user);
+    const token = user.generateAuthToken();
+
+    res
+      .cookie("token", token, {
+        expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+        secure: false,
+        httpOnly: true,
+      })
+      .json(user);
   } catch (err) {
     next(errorHandler(`Bad request!`, 400));
   }
@@ -63,3 +82,11 @@ exports.viewUserInfo = async (req, res, next) => {
     next(errorHandler(`No such user!`, 400));
   }
 };
+
+exports.logoutUser = async (req, res, next) => {
+  res.clearCookie('token', {
+    secure: false,
+    httpOnly: true
+  })
+  res.json({ message: 'Logged out!' })
+}
