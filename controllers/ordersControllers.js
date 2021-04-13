@@ -12,12 +12,11 @@ exports.getOrders = async (_, res, next) => {
 };
 
 
-// receive user ID in the request
-// me route: /userId/orders
+// me route: /me/orders
 exports.getUserOrders = async (req, res, next) => {
-	const {userId} = req.params;
+	const { _id } = req.user;
   try {
-    const userOrders = await Order.find({ userId });
+    const userOrders = await Order.find({ _id });
     res.json(userOrders);
   } catch (err) {
     next(errorHandler("Cannot get orders"));

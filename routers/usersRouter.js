@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const { auth } = require("../middleware/authentication");
 
 const {
   getUsers,
@@ -9,12 +10,18 @@ const {
   updateUser,
 } = require("../controllers/usersControllers");
 
-const { userValidationRules, userValidationErrorHandler } = require('../middleware/validation.js')
+const {
+  userValidationRules,
+  userValidationErrorHandler,
+} = require("../middleware/validation.js");
 
-router.route("/").get(getUsers).post(userValidationRules(), userValidationErrorHandler, addUser);
+router
+  .route("/")
+  .get(auth, getUsers)
+  .post(userValidationRules(), userValidationErrorHandler, addUser);
 
 router.route("/login").post(loginUser);
 
-router.route("/:id").get(viewUserInfo).put(updateUser);
+router.route("/:id").get(auth, viewUserInfo).put(auth, updateUser);
 
 module.exports = router;
