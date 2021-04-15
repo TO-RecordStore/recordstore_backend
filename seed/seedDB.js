@@ -59,7 +59,6 @@ const lastfm = process.env.LASTFM_KEY;
 			nickname: faker.internet.userName(),
 			email: faker.internet.email(),
 			password: 'qwertyuiiop555',
-			avatar: faker.internet.avatar(),
 		}
 		console.log(`User ${userData.nickname} has been added!`);
 		const user = new User(userData);

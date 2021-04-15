@@ -24,7 +24,10 @@ app.listen(PORT, () => {
 });
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+  origin: process.env.FRONTEND_ORIGIN || 'http://localhost:3000',
+  credentials: true,
+}));
 app.use(cookiesParser());
 app.use("/statics", express.static("statics"));
 
