@@ -36,6 +36,7 @@ UserSchema.pre("save", function () {
 
 UserSchema.methods.generateAuthToken = function () {
   const user = this;
+  
   const jwtKey = process.env.JWT_KEY;
   const token = jwt.sign({ _id: user._id.toString() }, jwtKey).toString();
 
