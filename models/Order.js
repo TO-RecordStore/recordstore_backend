@@ -2,14 +2,14 @@ const mongoose = require('mongoose')
 const {Schema, model} = mongoose
 
 const OrderSchema = new Schema({
+	userId: {
+		type: Schema.Types.ObjectId,
+		ref: 'User'
+	},
     records: [{
-        record: {type: Schema.Types.ObjectId, ref: "Record"},
-        quantity: Number
-    }],
-		userId: {
-			type: Schema.Types.ObjectId,
-			ref: 'User'
-		}
+		record: {type: Schema.Types.ObjectId, ref: "Record"},
+		quantity: Number
+	}]
 }, {
 	versionKey: false,
 	timestamps: true,

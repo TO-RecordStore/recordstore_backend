@@ -16,7 +16,12 @@ exports.getOrders = async (_, res, next) => {
 exports.getUserOrders = async (req, res, next) => {
 	const { _id } = req.user;
   try {
-    const userOrders = await Order.find({ _id });
+    const userOrders = await Order.find({ userId: _id })
+    // .populate({
+    //   path: 'records',
+    //   populate: 'record'
+    // });
+    .populate('records', {path: 'record'});
     res.json(userOrders);
   } catch (err) {
     next(errorHandler("Cannot get orders"));
@@ -35,8 +40,14 @@ exports.getOrder = async (req, res, next) => {
 
 // receive user ID in the request?
 exports.createOrder = async (req, res, next) => {
+  const orderData = {
+    userId: req.user._id,
+    records: req.body
+  }
+  console.log('orderData ==>', orderData);
   try {
-    const newOrder = await Order.create(req.body);
+    const newOrder = await Order.create(orderData);
+    console.log('new order after .create()', newOrder)
     res.json(newOrder);
   } catch (err) {
     next(errorHandler("Cannot create an order: invalid data!"));
