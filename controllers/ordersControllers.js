@@ -16,12 +16,8 @@ exports.getOrders = async (_, res, next) => {
 exports.getUserOrders = async (req, res, next) => {
 	const { _id } = req.user;
   try {
-    const userOrders = await Order.find({ userId: _id })
-    // .populate({
-    //   path: 'records',
-    //   populate: 'record'
-    // });
-    .populate('records', {path: 'record'});
+    const userOrders = await Order.find({ userId: _id }).populate('records.record');
+		console.log('userOrders', userOrders);
     res.json(userOrders);
   } catch (err) {
     next(errorHandler("Cannot get orders"));
