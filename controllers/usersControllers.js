@@ -15,18 +15,17 @@ exports.getUsers = async (req, res, next) => {
 exports.addUser = async (req, res, next) => {
   try {
     const newUser = await User.create(req.body);
-    
+
     const token = newUser.generateAuthToken();
-		
-		console.log(newUser);
+
+    console.log(newUser);
     res
-		.cookie("token", token, {
-			expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
-			secure: false,
-			httpOnly: true,
+      .cookie("token", token, {
+        expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
+        secure: false,
+        httpOnly: true,
       })
       .json(newUser);
-      
   } catch (err) {
     next(errorHandler(`Invalid signup data`, 400));
   }
@@ -86,13 +85,13 @@ exports.viewUserInfo = async (req, res, next) => {
 };
 
 exports.logoutUser = async (req, res, next) => {
-  res.clearCookie('token', {
+  res.clearCookie("token", {
     secure: false,
-    httpOnly: true
-  })
-  res.json({ message: 'Logged out!' })
-}
+    httpOnly: true,
+  });
+  res.json({ message: "Logged out!" });
+};
 
 exports.authUser = async (req, res) => {
-  res.json(req.user)
-}
+  res.json(req.user);
+};
