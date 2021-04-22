@@ -17,8 +17,8 @@ exports.addUser = async (req, res, next) => {
     const newUser = await User.create(req.body);
 
     const token = newUser.generateAuthToken();
-
-    console.log(newUser);
+		
+		// console.log(newUser);
     res
       .cookie("token", token, {
         expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
