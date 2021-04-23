@@ -18,7 +18,6 @@ exports.addUser = async (req, res, next) => {
 
     const token = newUser.generateAuthToken();
 		
-		// console.log(newUser);
     res
       .cookie("token", token, {
         expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
@@ -27,7 +26,7 @@ exports.addUser = async (req, res, next) => {
       })
       .json(newUser);
   } catch (err) {
-    next(errorHandler(`Invalid signup data`, 400));
+    next(errorHandler(err.message, err.status));
   }
 };
 
@@ -86,7 +85,7 @@ exports.viewUserInfo = async (req, res, next) => {
 
 exports.logoutUser = async (req, res, next) => {
   res.clearCookie("token", {
-    secure: false,
+    secure: false, //! CHANGE BEFORE DEPLOYMENT!
     httpOnly: true,
   });
   res.json({ message: "Logged out!" });
