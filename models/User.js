@@ -1,8 +1,8 @@
-// require('dotenv').config();
-const mongoose = require("mongoose");
+const env = require('../config/config');
+const mongoose = require('mongoose');
 const { model, Schema } = mongoose;
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 const UserSchema = new Schema(
   {
@@ -14,7 +14,7 @@ const UserSchema = new Schema(
     avatar: {
       type: String,
       required: true,
-      default: "http://localhost:5001/statics/avatar-01.jpg",
+      default: 'http://localhost:5001/statics/avatar-01.jpg',
     },
   },
   {
@@ -28,33 +28,31 @@ const UserSchema = new Schema(
   }
 );
 
-UserSchema.pre("save", function () {
+UserSchema.pre('save', function () {
   const user = this;
-  if (user.isModified("password"))
+  if (user.isModified('password'))
     user.password = bcrypt.hashSync(user.password, 8);
 });
 
 UserSchema.methods.generateAuthToken = function () {
   const user = this;
-  
-  const jwtKey = process.env.JWT_KEY;
-  const token = jwt.sign({ _id: user._id.toString() }, jwtKey).toString();
+
+  const token = jwt.sign({ _id: user._id.toString() }, env.jwtKey).toString();
 
   return token;
 };
 
 UserSchema.statics.findByToken = function (token) {
   const User = this;
-  const jwtKey = process.env.JWT_KEY;
 
   try {
-    const decoded = jwt.verify(token, jwtKey);
+    const decoded = jwt.verify(token, env.jwtKey);
     return User.findOne({ _id: decoded._id });
   } catch (err) {
     return;
   }
 };
 
-const User = model("User", UserSchema);
+const User = model('User', UserSchema);
 
 module.exports = User;
