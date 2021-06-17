@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const { model, Schema } = mongoose;
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { errorHandler } = require('../utilities/errorHandler');
 
 const UserSchema = new Schema(
   {
@@ -27,6 +28,15 @@ const UserSchema = new Schema(
     },
   }
 );
+
+UserSchema.post('save', (error, doc, next) => {
+  const key = Object.keys(error.keyValue)[0];
+  if (error.name === 'MongoError' && error.code === 11000) {
+    next(errorHandler(`User with this ${key} already exists`));
+  } else {
+    next();
+  }
+});
 
 UserSchema.pre('save', function () {
   const user = this;
