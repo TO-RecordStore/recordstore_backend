@@ -8,6 +8,7 @@ const {
   loginUser,
   viewUserInfo,
   updateUser,
+  logoutUser
 } = require("../controllers/usersControllers");
 
 const {
@@ -23,5 +24,7 @@ router
 router.route("/login").post(loginUser);
 
 router.route("/:id").get(auth, viewUserInfo).put(auth, updateUser);
+
+router.route('/logout').get(logoutUser)
 
 module.exports = router;
