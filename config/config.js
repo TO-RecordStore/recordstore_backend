@@ -12,6 +12,7 @@ const devConfig = {
   lastFmKey: env.LASTFM_KEY_DEV,
   jwtKey: env.JWT_KEY_DEV,
   frontendOrigin: env.FRONTEND_ORIGIN_DEV,
+  serverBase: env.SERVER_DEV,
 };
 
 const prodConfig = {
@@ -21,6 +22,7 @@ const prodConfig = {
   lastFmKey: env.LASTFM_KEY_PROD,
   jwtKey: env.JWT_KEY_PROD,
   frontendOrigin: env.FRONTEND_ORIGIN_PROD,
+  serverBase: env.SERVER_PROD,
 };
 
 const currentConfig = config.env === 'production' ? prodConfig : devConfig;
