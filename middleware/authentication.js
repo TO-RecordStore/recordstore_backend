@@ -1,5 +1,5 @@
-const User = require("../models/User");
-const { errorHandler } = require("../utilities/errorHandler");
+const User = require('../models/User');
+const { errorHandler } = require('../utilities/errorHandler');
 
 exports.auth = async (req, res, next) => {
 	console.log("user's cookies", req.cookies);
@@ -11,7 +11,7 @@ exports.auth = async (req, res, next) => {
     if (!user) return next(errorHandler("User not found"));
 
     req.user = user;
-		next();
+    next();
   } catch (err) {
     next(err);
   }

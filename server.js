@@ -1,57 +1,42 @@
-require("dotenv").config();
-const express = require("express");
+const env = require('./config/config');
+const express = require('express');
 const app = express();
 const PORT = 5001;
-const cors = require("cors");
-const mongoose = require("mongoose");
-const usersRouter = require("./routers/usersRouter");
-const recordsRouter = require("./routers/recordsRouter");
-const imagesRouter = require("./routers/imagesRouter");
-const ordersRouter = require("./routers/ordersRouter");
-const meRouter = require("./routers/meRouter");
-const cookiesParser = require('cookie-parser')
+const cors = require('cors');
+const usersRouter = require('./routers/usersRouter');
+const recordsRouter = require('./routers/recordsRouter');
+const imagesRouter = require('./routers/imagesRouter');
+const ordersRouter = require('./routers/ordersRouter');
+const meRouter = require('./routers/meRouter');
+const cookiesParser = require('cookie-parser');
 
-// VARIABLES
+// MONGO CONNECTION
 
-const password = process.env.DB_PASSWORD;
-const user = process.env.DB_USER;
-const db_name = process.env.DB_NAME;
+require('./utilities/dbConnection');
 
 // EXPRESS SETUP
 
 app.listen(PORT, () => {
-  console.log(`app listens at localhost:${PORT}`);
+  console.log(`👂 app listens at localhost:${PORT}`);
 });
 
 app.use(express.json());
-app.use(cors({
-  origin: process.env.FRONTEND_ORIGIN || 'http://localhost:3000',
-  credentials: true,
-}));
-app.use(cookiesParser());
-app.use("/statics", express.static("statics"));
-
-// DB CONNECTION
-
-const strConn = `mongodb+srv://${user}:${password}@cluster0.dkalb.mongodb.net/${db_name}?retryWrites=true&w=majority`;
-
-mongoose
-  .connect(strConn, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
-    useCreateIndex: true,
+app.use(
+  cors({
+    origin: env.frontendOrigin || 'http://localhost:3000',
+    credentials: true,
   })
-  .then(() => console.log("Connect to central db successfully"))
-  .catch((err) => console.log("[ERROR] DB connection failed"));
+);
+app.use(cookiesParser());
+app.use('/statics', express.static('statics'));
 
 // API ROUTES
 
-app.use("/users", usersRouter);
-app.use("/records", recordsRouter);
-app.use("/images", imagesRouter);
-app.use("/orders", ordersRouter);
-app.use("/me", meRouter);
+app.use('/users', usersRouter);
+app.use('/records', recordsRouter);
+app.use('/images', imagesRouter);
+app.use('/orders', ordersRouter);
+app.use('/me', meRouter);
 
 // EXPRESS ERROR HANDLER
 
