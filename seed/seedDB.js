@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const Record = require('../models/Record');
 const User = require('../models/User');
 const faker = require('faker');
@@ -49,7 +48,7 @@ require('../utilities/dbConnection');
   // CREATING NEW RECORDS WITH LAST.FM API
 
   const fetchRecordsFromLastFM = async () => {
-    const URI = `http://ws.audioscrobbler.com/2.0/?method=album.search&album=believe&api_key=${env.lastFmKey}&format=json`;
+    const URI = `http://ws.audioscrobbler.com/2.0/?method=album.search&album=machine&api_key=${env.lastFmKey}&format=json`;
     try {
       const recordsData = await axios.get(URI);
       const records = recordsData.data.results.albummatches.album;
