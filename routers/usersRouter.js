@@ -1,6 +1,6 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const { auth } = require("../middleware/authentication");
+const { auth } = require('../middleware/authentication');
 
 const {
   getUsers,
@@ -8,23 +8,23 @@ const {
   loginUser,
   viewUserInfo,
   updateUser,
-  logoutUser
-} = require("../controllers/usersControllers");
+  logoutUser,
+} = require('../controllers/usersControllers');
 
 const {
   userValidationRules,
   userValidationErrorHandler,
-} = require("../middleware/validation.js");
+} = require('../middleware/validation.js');
 
 router
-  .route("/")
+  .route('/')
   .get(auth, getUsers)
   .post(userValidationRules(), userValidationErrorHandler, addUser);
 
-router.route("/login").post(loginUser);
+router.route('/login').post(loginUser);
 
-router.route("/:id").get(auth, viewUserInfo).put(auth, updateUser);
+router.route('/logout').get(logoutUser);
 
-router.route('/logout').get(logoutUser)
+router.route('/:id').get(auth, viewUserInfo).put(auth, updateUser);
 
 module.exports = router;

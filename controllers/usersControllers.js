@@ -1,7 +1,8 @@
-const User = require("../models/User");
-const bcrypt = require("bcryptjs");
+const env = require('../config/config');
+const User = require('../models/User');
+const bcrypt = require('bcryptjs');
 
-const { errorHandler } = require("../utilities/errorHandler");
+const { errorHandler } = require('../utilities/errorHandler');
 
 exports.getUsers = async (req, res, next) => {
   try {
@@ -17,11 +18,12 @@ exports.addUser = async (req, res, next) => {
     const newUser = await User.create(req.body);
 
     const token = newUser.generateAuthToken();
-		
+
     res
-      .cookie("token", token, {
-        expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
-        secure: false,
+      .cookie('token', token, {
+        expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // one week
+        sameSite: env.env == 'production' ? 'None' : 'lax',
+        secure: env.env == 'production' ? true : false,
         httpOnly: true,
       })
       .json(newUser);
@@ -37,21 +39,22 @@ exports.loginUser = async (req, res, next) => {
     const user = await User.findOne({
       email: loginInfo.email,
     });
-    if (!user) return next(errorHandler("User not found!", 401));
+    if (!user) return next(errorHandler('User not found!', 401));
 
     const passwordMatches = bcrypt.compareSync(
       loginInfo.password,
       user.password
     );
 
-    if (!passwordMatches) return next(errorHandler("Wrong password", 401));
+    if (!passwordMatches) return next(errorHandler('Wrong password', 401));
 
     const token = user.generateAuthToken();
 
     res
-      .cookie("token", token, {
-        expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7),
-        secure: false,
+      .cookie('token', token, {
+        expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // one week
+        sameSite: env.env == 'production' ? 'None' : 'lax',
+        secure: env.env == 'production' ? true : false,
         httpOnly: true,
       })
       .json(user);
@@ -83,12 +86,14 @@ exports.viewUserInfo = async (req, res, next) => {
   }
 };
 
-exports.logoutUser = async (req, res, next) => {
-  res.clearCookie("token", {
-    secure: false, //! CHANGE BEFORE DEPLOYMENT!
+exports.logoutUser = async (req, res) => {
+  res.clearCookie('token', {
+    sameSite: env.env == 'production' ? 'None' : 'lax',
+    secure: env.env == 'production' ? true : false,
     httpOnly: true,
   });
-  res.json({ message: "Logged out!" });
+
+  res.json({ message: 'Logged out!' });
 };
 
 exports.authUser = async (req, res) => {
