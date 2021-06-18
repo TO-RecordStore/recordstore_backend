@@ -15,7 +15,7 @@ const UserSchema = new Schema(
     avatar: {
       type: String,
       required: true,
-      default: 'http://localhost:5001/statics/profile-images/weirdbeans.jpg',
+      default: `${env.serverBase}/statics/profile-images/weirdbeans.jpg`,
     },
   },
   {
