@@ -2,7 +2,6 @@ const User = require('../models/User');
 const { errorHandler } = require('../utilities/errorHandler');
 
 exports.auth = async (req, res, next) => {
-  console.log("user's cookies", req.cookies);
   try {
     const token = req.cookies.token;
 
