@@ -1,33 +1,39 @@
 {
-	"name": "recordstore_backend",
-	"version": "1.0.0",
-	"description": "",
-	"main": "server.js",
-	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
-
-		"seed": "node seed/seedDB.js"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/TO-RecordStore/recordstore_backend.git"
-	},
-	"author": "",
-	"license": "ISC",
-	"bugs": {
-		"url": "https://github.com/TO-RecordStore/recordstore_backend/issues"
-	},
-	"homepage": "https://github.com/TO-RecordStore/recordstore_backend#readme",
-	"dependencies": {
-		"axios": "^0.21.1",
-		"bcryptjs": "^2.4.3",
-		"cookie-parser": "^1.4.5",
-		"cors": "^2.8.5",
-		"dotenv": "^8.2.0",
-		"express": "^4.17.1",
-		"express-validator": "^6.10.0",
-		"faker": "^5.4.0",
-		"jsonwebtoken": "^8.5.1",
-		"mongoose": "^5.12.14"
-	}
+  "name": "recordstore_backend",
+  "version": "1.0.0",
+  "description": "RecordStore RESTful API built with Node & Express",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "seed": "node seed/seedDB.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TO-RecordStore/recordstore_backend.git"
+  },
+  "contributors": [
+    "olhanotolga",
+    "TomasEliz"
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TO-RecordStore/recordstore_backend/issues"
+  },
+  "homepage": "https://github.com/TO-RecordStore/recordstore_backend#readme",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.10.0",
+    "faker": "^5.4.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.12.14"
+  },
+  "engines": {
+    "node": "14.x"
+  }
 }
