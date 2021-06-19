@@ -1,7 +1,7 @@
 const env = require('./config/config');
 const express = require('express');
 const app = express();
-const PORT = 5001;
+const PORT = process.env.PORT || 5001;
 const cors = require('cors');
 const usersRouter = require('./routers/usersRouter');
 const recordsRouter = require('./routers/recordsRouter');
