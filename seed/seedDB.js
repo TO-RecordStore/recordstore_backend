@@ -24,7 +24,7 @@ require('../utilities/dbConnection');
 
   // CREATING NEW USERS WITH FAKER.JS
 
-  const userPromises = Array(10)
+  const userPromises = Array(5)
     .fill(null)
     .map(() => {
       const userData = {
