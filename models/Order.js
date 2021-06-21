@@ -24,7 +24,10 @@ const OrderSchema = new Schema(
 );
 
 OrderSchema.virtual('totalPrice').get(function () {
-  const totalPrice = this.records.reduce((acc, curr) => acc + curr.price, 0);
+  const totalPrice = this.records.reduce(
+    (acc, curr) => acc + curr.record.price,
+    0
+  );
   return totalPrice;
 });
 
