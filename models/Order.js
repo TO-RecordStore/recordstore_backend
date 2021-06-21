@@ -25,7 +25,7 @@ const OrderSchema = new Schema(
 
 OrderSchema.virtual('totalPrice').get(function () {
   const totalPrice = this.records.reduce(
-    (acc, curr) => acc + curr.record.price,
+    (acc, curr) => acc + curr.record.price * curr.quantity,
     0
   );
   return totalPrice;
