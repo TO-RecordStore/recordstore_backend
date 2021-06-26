@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Record Store API Documentation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,300;0,400;0,600;0,800;1,300&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header>
+    <h1>Record Store API Documentation</h1>
+  </header>
+
+  <!-- NAVIGATION (TOC) -->
+  <nav>
+    <h2>Navigation</h2>
+    <ul>
+      <li><a href="#general-info">General info</a></li>
+      <li>
+        <a href="#endpoints">Endpoints</a>
+        <ul>
+          <li><a href="#endpoints-users">Endpoints: Users</a></li>
+          <li><a href="#endpoints-records">Endpoints: Records</a></li>
+          <li><a href="#endpoints-images">Endpoints: Images</a></li>
+          <li><a href="#endpoints-orders">Endpoints: Orders</a></li>
+          <li><a href="#endpoints-me">Endpoints: Me</a></li>
+        </ul>
+      </li>
+      <li>
+        <a href="#models">Models</a>
+        <ul>
+          <li><a href="#models-user">Models: User</a></li>
+          <li><a href="#models-record">Models: Record</a></li>
+          <li><a href="#models-order">Models: Order</a></li>
+
+        </ul>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    <!-- PAGE HEADER -->
+    <header>
+      <h2 id="general-info">API Documentation</h2>
+      <p>Base URL: <code>https://awesome-recordstore.herokuapp.com/</code></p>
+      <p>The response might take longer the first time because the API is hosted on a free Heroku dyno.</p>
+      <p>Almost every request requires an auth token sent in the request header. The token is set as a cookie at login
+        or registration.</p>
+      <p>In a case when the request itself is successful but the API responds with an error (e.g. the data sent is
+        incorrect), a unified response is
+        expected: <code class="non-accent">error: {
+        message: `${err.message}`
+      }</code> </p>
+    </header>
+
+    <!-- ENDPOINTS -->
+    <section>
+      <h3 id="endpoints">Endpoints</h3>
+
+      <!-- USERS -->
+      <h4 id="endpoints-users">Users</h4>
+
+      <ul>
+        <!-- GET, /users/ -->
+        <li class="endpoint">
+          <code>/users</code>
+          <span>GET</span>
+          <span>View all users</span>
+          <span class="auth-line">Auth required</span>
+          <span><span class="bold">Response:</span> an array of user objects (see <a href="#models-user">User
+              model</a>).</span>
+        </li>
+        <!-- POST, /users/ -->
+        <li class="endpoint">
+          <code>/users</code>
+          <span>POST</span>
+          <span>Add a new user</span>
+          <span class="auth-line">Auth NOT required</span>
+          <span><span class="bold">Body:</span> new user object (see <a href="#models-user">User
+              model</a>).</span>
+          <span><span class="bold">Response:</span> a newly created user object.</span>
+        </li>
+        <!-- POST, /users/login -->
+        <li class="endpoint">
+          <code>/users/login</code>
+          <span>POST</span>
+          <span>Log in as an existing user</span>
+          <span class="auth-line">Auth required</span>
+          <span><span class="bold">Body:</span> an object with properties <code>email</code> and <code>password</code>.
+          </span>
+          <span><span class="bold">Response:</span> the user object.</span>
+        </li>
+        <!-- GET, /users/:id -->
+        <li class="endpoint">
+          <code>/users/:id</code>
+          <span>GET</span>
+          <span>Get user's data</span>
+          <span class="auth-line">Auth required</span>
+          <span><span class="bold">Response:</span> the user object.</span>
+        </li>
+        <!-- PUT, /users/:id -->
+        <li class="endpoint">
+          <code>/users/:id</code>
+          <span>PUT</span>
+          <span>Update user's data</span>
+          <span class="auth-line">Auth required</span>
+          <span><span class="bold">Body:</span> the object with properties that need to be updated.</span>
+          <span><span class="bold">Response:</span> the updated user object.</span>
+        </li>
+        <!-- GET, /users/logout -->
+        <li class="endpoint">
+          <code>/users/logout</code>
+          <span>GET</span>
+          <span>Log the existing user out (clear cookies)</span>
+          <span class="auth-line">Auth NOT required</span>
+          <span><span class="bold">Response:</span> <code class="non-accent">{ message: 'Logged out!' }</code>.</span>
+        </li>
+      </ul>
+
+      <!-- RECORDS -->
+      <h4 id="endpoints-records">Records</h4>
+
+      <ul>
+        <!-- GET, /records/ -->
+        <li class="endpoint">
+          <code>/records</code>
+          <span>GET</span>
+          <span>View all records</span>
+          <span class="auth-line">Auth NOT required</span>
+          <span><span class="bold">Response:</span> an array with record objects (see <a href="#models-record">Record
+              model</a>).</span>
+        </li>
+      </ul>
+
+      <!-- IMAGES -->
+      <h4 id="endpoints-images">Images</h4>
+
+      <ul>
+        <!-- GET, /images/ -->
+        <li class="endpoint">
+          <code>/images</code>
+          <span>GET</span>
+          <span>View all avatar images</span>
+          <span class="auth-line">Auth NOT required</span>
+          <span><span class="bold">Response:</span> an array of image objects
+            <code
+              class="non-accent">{ url: 'https://awesome-recordstore.herokuapp.com/statics/profile-images/weirdbeans.jpg' }</code>.</span>
+        </li>
+      </ul>
+
+      <!-- ORDERS -->
+      <h4 id="endpoints-orders">Orders</h4>
+
+      <ul>
+        <!-- POST, /orders/ -->
+        <li class="endpoint">
+          <code>/orders</code>
+          <span>POST</span>
+          <span>Create a new order</span>
+          <span class="auth-line">Auth required</span>
+          <span><span class="bold">Body:</span> an array of objects in the following format: <br>
+            <code class="non-accent">{  record: `${ID}`,  quantity: `${number}`  }</code></span>
+          <span><span class="bold">Response:</span> new order object (see <a href="#models-order">Order
+              model</a>).</span>
+        </li>
+      </ul>
+
+      <!-- ME -->
+      <h4 id="endpoints-me">Me</h4>
+
+      <ul>
+        <!-- GET, /me/orders/ -->
+        <li class="endpoint">
+          <code>/me/orders</code>
+          <span>GET</span>
+          <span>View all current user's orders</span>
+          <span class="auth-line">Auth required</span>
+          <span><span class="bold">Response:</span> an array of user's orders.</span>
+        </li>
+        <!-- POST, /me/auth/ -->
+        <li class="endpoint">
+          <code>/me/auth</code>
+          <span>POST</span>
+          <span>Authenticate user (check if the token is valid)</span>
+          <span class="auth-line">Auth NOT required</span>
+          <span><span class="bold">Body:</span> none.</span>
+          <span><span class="bold">Response:</span> user object.</span>
+        </li>
+      </ul>
+
+
+    </section>
+
+    <!-- MODELS -->
+    <section>
+      <h3 id="models">Models</h3>
+      <p>Auto-generated properties are marked with ⦿.</p>
+
+      <!-- USER -->
+      <h4 id="models-user">User</h4>
+
+      <table>
+        <thead>
+          <th>Key</th>
+          <th>Type</th>
+          <th>Additional info</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>_id&nbsp;⦿</td>
+            <td>ObjectID</td>
+            <td>required, unique</td>
+          </tr>
+          <tr>
+            <td>firstName</td>
+            <td>String</td>
+            <td>required</td>
+          </tr>
+          <tr>
+            <td>lastName</td>
+            <td>String</td>
+            <td>required</td>
+          </tr>
+          <tr>
+            <td>nickname</td>
+            <td>String</td>
+            <td>required</td>
+          </tr>
+          <tr>
+            <td>email</td>
+            <td>String</td>
+            <td>required, unique</td>
+          </tr>
+          <tr>
+            <td>password</td>
+            <td>String</td>
+            <td>required</td>
+          </tr>
+          <tr>
+            <td>avatar</td>
+            <td>String</td>
+            <td>required, default: <code>/statics/profile-images/weirdbeans.jpg</code></td>
+          </tr>
+          <tr>
+            <td>createdAt&nbsp;⦿</td>
+            <td>Date</td>
+            <td>required</td>
+          </tr>
+          <tr>
+            <td>updatedAt&nbsp;⦿</td>
+            <td>Date</td>
+            <td>required</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- RECORD -->
+      <h4 id="models-record">Record</h4>
+
+      <table>
+        <thead>
+          <th>Key</th>
+          <th>Type</th>
+          <th>Additional info</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>_id&nbsp;⦿</td>
+            <td>ObjectID</td>
+            <td>required, unique</td>
+          </tr>
+          <tr>
+            <td>cover</td>
+            <td>String</td>
+            <td>required</td>
+          </tr>
+          <tr>
+            <td>title</td>
+            <td>String</td>
+            <td>required</td>
+          </tr>
+          <tr>
+            <td>artist</td>
+            <td>String</td>
+            <td>required</td>
+          </tr>
+          <tr>
+            <td>year</td>
+            <td>Number</td>
+            <td>required</td>
+          </tr>
+          <tr>
+            <td>price</td>
+            <td>Number</td>
+            <td>required</td>
+          </tr>
+          <tr>
+            <td>createdAt&nbsp;⦿</td>
+            <td>Date</td>
+            <td>required</td>
+          </tr>
+          <tr>
+            <td>updatedAt&nbsp;⦿</td>
+            <td>Date</td>
+            <td>required</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- ORDER -->
+      <h4 id="models-order">Order</h4>
+
+      <table>
+        <thead>
+          <th>Key</th>
+          <th>Type</th>
+          <th>Additional info</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>_id&nbsp;⦿</td>
+            <td>ObjectID</td>
+            <td>required, unique</td>
+          </tr>
+          <tr>
+            <td>userId</td>
+            <td>ObjectID</td>
+            <td>required</td>
+          </tr>
+          <tr>
+            <td>records</td>
+            <td>Array of Objects: <code>{record: ObjectId, quantity: Number}</code></td>
+            <td>required</td>
+          </tr>
+          <tr>
+            <td>createdAt&nbsp;⦿</td>
+            <td>Date</td>
+            <td>required</td>
+          </tr>
+          <tr>
+            <td>updatedAt&nbsp;⦿</td>
+            <td>Date</td>
+            <td>required</td>
+          </tr>
+          <tr>
+            <td>totalPrice&nbsp;⦿</td>
+            <td>Number</td>
+            <td>virtual property</td>
+          </tr>
+        </tbody>
+      </table>
+
+
+    </section>
+  </main>
+
+  <footer>Built by <a href="https://github.com/TomasEliz">TomasEliz</a> and <a
+      href="https://github.com/olhanotolga">olhanotolga</a>. View <a
+      href="https://github.com/TO-RecordStore/recordstore_backend">repo on GitHub</a>.</footer>
+</body>
+
+</html>
