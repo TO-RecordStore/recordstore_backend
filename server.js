@@ -29,8 +29,13 @@ app.use(
 );
 app.use(cookiesParser());
 app.use('/statics', express.static('statics'));
+app.use(express.static('documentation'));
 
 // API ROUTES
+
+app.get('/', (req, res) => {
+  res.send(express.static('documentation'));
+});
 
 app.use('/users', usersRouter);
 app.use('/records', recordsRouter);
