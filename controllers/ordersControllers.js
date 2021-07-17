@@ -1,26 +1,27 @@
-const Order = require("../models/Order");
-const { errorHandler } = require("../utilities/errorHandler");
+const Order = require('../models/Order');
+const { errorHandler } = require('../utilities/errorHandler');
 
 // ADMIN
 exports.getOrders = async (_, res, next) => {
   try {
-    const orders = await Order.find().populate("userId")
+    const orders = await Order.find().populate('userId');
     res.json(orders);
   } catch (err) {
-    next(errorHandler("Cannot get orders"));
+    next(errorHandler('Cannot get orders'));
   }
 };
 
-
 // me route: /me/orders
 exports.getUserOrders = async (req, res, next) => {
-	const { _id } = req.user;
+  const { _id } = req.user;
   try {
-    const userOrders = await Order.find({ userId: _id }).populate('records.record');
-		console.log('userOrders', userOrders);
+    const userOrders = await Order.find({ userId: _id }).populate(
+      'records.record'
+    );
+    // console.log('userOrders', userOrders);
     res.json(userOrders);
   } catch (err) {
-    next(errorHandler("Cannot get orders"));
+    next(errorHandler('Cannot get orders'));
   }
 };
 
@@ -38,14 +39,14 @@ exports.getOrder = async (req, res, next) => {
 exports.createOrder = async (req, res, next) => {
   const orderData = {
     userId: req.user._id,
-    records: req.body
-  }
+    records: req.body,
+  };
   console.log('orderData ==>', orderData);
   try {
     const newOrder = await Order.create(orderData);
-    console.log('new order after .create()', newOrder)
+    // console.log('new order after .create()', newOrder)
     res.json(newOrder);
   } catch (err) {
-    next(errorHandler("Cannot create an order: invalid data!"));
+    next(errorHandler('Cannot create an order: invalid data!'));
   }
 };

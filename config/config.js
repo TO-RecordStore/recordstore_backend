@@ -26,7 +26,6 @@ const prodConfig = {
 };
 
 const currentConfig = config.env === 'production' ? prodConfig : devConfig;
-console.log('CURRENT ENV SETUP:', config.env);
-console.log(currentConfig);
+// console.log('CURRENT ENV SETUP:', config.env);
 
 module.exports = Object.assign({}, config, currentConfig);
