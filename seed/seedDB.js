@@ -57,7 +57,7 @@ require('../utilities/dbConnection');
         const newRecordData = {
           title: record.name,
           artist: record.artist,
-          cover: record.image[2]['#text'],
+          cover: record.image[3]['#text'],
           year: Math.floor(Math.random() * 50) + 1970,
           price: 19.99,
         };
